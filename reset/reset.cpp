@@ -8,10 +8,10 @@ int wait_time = 3;
 void help() 
 {
   Serial.println("");
-  Serial.println("> Input the string:");
+  Serial.println("> Help:");
   Serial.println("  =================");
-  Serial.println("  on:    Power off");
-  Serial.println("  off:   Power on");
+  Serial.println("  on:    Power on");
+  Serial.println("  off:   Power off");
   Serial.println("  reset: Reset (default time: 3s)");
   Serial.println("  config time <time>: config reset time (Unit: second)");
   Serial.println("");
@@ -27,9 +27,9 @@ void strcmd(String cmd)
     Serial.println("Power on ...");
     digitalWrite(RELAYpin, HIGH);
   } else if (cmd == "reset") {
-    Serial.print("Wait ");
+    Serial.print("Waiting ");
     Serial.print(wait_time);
-    Serial.println("s, and reset ...");
+    Serial.println(" second, and then reset ...");
     digitalWrite(RELAYpin, LOW);
     delay(wait_time * 1000);
     digitalWrite(RELAYpin, HIGH);
