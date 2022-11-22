@@ -4,35 +4,73 @@ int RELAYpin = 7;
 /* Public variable */
 String s = "";
 int wait_time = 3;
+String power_status = "on";
 
 void help() 
 {
   Serial.println("");
-  Serial.println("> Help:");
-  Serial.println("  =================");
-  Serial.println("  on:    Power on");
-  Serial.println("  off:   Power off");
-  Serial.println("  reset: Reset (default time: 3s)");
-  Serial.println("  config time <time>: config reset time (Unit: second)");
+  Serial.println("> Power control help:");
+  Serial.println("  =======================================================");
+  Serial.println("  on:                    Power on");
+  Serial.println("  off:                   Power off");
+  Serial.println("  reset:                 Reset (default time: 3s)");
+  Serial.println("  config time <time>:    Config reset time (Unit: second)");
+  Serial.println("  help:                  Help messages");
+  Serial.println("  =======================================================");
+  Serial.println("");
+  Serial.println("  Author: Allen Hsu, aka Dajia coder.  Date: 2022.11.23");
   Serial.println("");
   Serial.print("> ");
-} 
+}
+
+void countdown(int time)
+{
+  int i = 0;
+  while (1){
+    delay(1000);
+    i += 1;
+    Serial.print(i);
+    Serial.println(" second ...");
+    if (i == time)
+      break;
+  }
+}
+void power_on()
+{
+  Serial.println("Power on ...");
+  power_status = "on";
+  digitalWrite(RELAYpin, HIGH);
+}
+
+void power_off()
+{
+  Serial.println("Power off ...");
+  power_status = "off";
+  digitalWrite(RELAYpin, LOW);
+}
 
 void strcmd(String cmd)
 {
   if (cmd == "off") {
-    Serial.println("Power off ...");
-    digitalWrite(RELAYpin, LOW);
+    if (cmd == power_status) {
+      Serial.println("No action, power off already!");
+    } else {
+      power_off();
+    }
   } else if (cmd == "on") {
-    Serial.println("Power on ...");
-    digitalWrite(RELAYpin, HIGH);
+    if (cmd == power_status) {
+      Serial.println("No action, power on already!");
+    } else {
+      power_on();
+    }
   } else if (cmd == "reset") {
     Serial.print("Waiting ");
     Serial.print(wait_time);
-    Serial.println(" second, and then reset ...");
-    digitalWrite(RELAYpin, LOW);
-    delay(wait_time * 1000);
-    digitalWrite(RELAYpin, HIGH);
+    Serial.println(" seconds, and then reset ...");
+    power_off();
+    //delay(wait_time * 1000);
+    countdown(wait_time);
+    power_on();
   } else if (cmd == "help") {
     help();
   } else if (cmd.substring(0, 11) == "config time") { // config time s
