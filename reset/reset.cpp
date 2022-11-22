@@ -9,7 +9,7 @@ String power_status = "on";
 void help() 
 {
   Serial.println("");
-  Serial.println("> Power control help:");
+  Serial.println("> Power control program help:");
   Serial.println("  =======================================================");
   Serial.println("  on:                    Power on");
   Serial.println("  off:                   Power off");
